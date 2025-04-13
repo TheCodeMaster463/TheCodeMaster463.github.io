@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Favicon Fetcher</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 400px;
+      margin: 2rem auto;
+      text-align: center;
+    }
+
+    input {
+      width: 80%;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      margin-top: 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    img {
+      margin-top: 1.5rem;
+      width: 64px;
+      height: 64px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Favicon Fetcher</h1>
+  <input type="text" id="urlInput" placeholder="https://example.com" />
+  <br />
+  <button onclick="getFavicon()">Get Favicon</button>
+  <div id="result"></div>
+
+  <script>
+    function getFavicon() {
+      const input = document.getElementById('urlInput').value.trim();
+
+      try {
+        const domain = new URL(input).hostname;
+        const favicon = `https://www.google.com/s2/favicons?sz=64&domain=${domain}`;
+        
+        document.getElementById('result').innerHTML = `
+          <p>Favicon for <strong>${domain}</strong>:</p>
+          <img src="${favicon}" alt="Favicon" />
+        `;
+      } catch (err) {
+        document.getElementById('result').innerHTML = `<p style="color: orange;">⚠️ Invalid URL</p>`;
+      }
+    }
+  </script>
+</body>
+</html>
