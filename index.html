@@ -2,58 +2,196 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Favicon Fetcher</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Locker Display</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
     body {
-      font-family: sans-serif;
-      max-width: 400px;
-      margin: 2rem auto;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      color: #f8fafc;
+      padding: 20px;
+    }
+
+    header {
       text-align: center;
+      margin-bottom: 30px;
     }
 
-    input {
-      width: 80%;
-      padding: 0.5rem;
-      font-size: 1rem;
+    h1 {
+      font-size: 2.5rem;
+      color: #38bdf8;
     }
 
-    button {
-      padding: 0.5rem 1rem;
-      margin-top: 1rem;
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      position: relative;
+      background-color: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    .card h2 {
+      font-size: 1.5rem;
+      color: #facc15;
+      margin-bottom: 10px;
+    }
+
+    .card ul {
+      list-style: none;
+    }
+
+    .card ul li {
+      margin-bottom: 8px;
+      line-height: 1.5;
+      color: #e2e8f0;
+    }
+
+    .fullscreen-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #334155;
+      border: none;
+      color: #f8fafc;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+
+    .fullscreen-btn:hover {
+      background: #475569;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 5%;
+      left: 5%;
+      width: 90%;
+      height: 90%;
+      background-color: #0f172a;
+      border: 2px solid #334155;
+      border-radius: 16px;
+      z-index: 1000;
+      padding: 20px;
+      overflow-y: auto;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    .modal h2 {
+      color: #facc15;
+    }
+
+    .modal .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #dc2626;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 6px;
       font-size: 1rem;
       cursor: pointer;
     }
 
-    img {
-      margin-top: 1.5rem;
-      width: 64px;
-      height: 64px;
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #64748b;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
-  <h1>Favicon Fetcher</h1>
-  <input type="text" id="urlInput" placeholder="https://example.com" />
-  <br />
-  <button onclick="getFavicon()">Get Favicon</button>
-  <div id="result"></div>
+  <header>
+    <h1>📚 My Locker Display</h1>
+  </header>
 
-  <script>
-    function getFavicon() {
-      const input = document.getElementById('urlInput').value.trim();
+  <main class="container">
+    <section class="card">
+      <h2>🕒 Now</h2>
+      <button class="fullscreen-btn" onclick="openModal('modal-now')">⛶</button>
+      <ul>
+        <li>Class: <strong>Math</strong></li>
+        <li>Teacher: Ms. Johnson</li>
+        <li>Room: 204</li>
+        <li>Time Left: 15 min</li>
+      </ul>
+    </section>
 
-      try {
-        const domain = new URL(input).hostname;
-        const favicon = `https://www.google.com/s2/favicons?sz=64&domain=${domain}`;
-        
-        document.getElementById('result').innerHTML = `
-          <p>Favicon for <strong>${domain}</strong>:</p>
-          <img src="${favicon}" alt="Favicon" />
-        `;
-      } catch (err) {
-        document.getElementById('result').innerHTML = `<p style="color: orange;">⚠️ Invalid URL</p>`;
-      }
-    }
-  </script>
-</body>
-</html>
+    <section class="card">
+      <h2>📅 Schedule</h2>
+      <button class="fullscreen-btn" onclick="openModal('modal-schedule')">⛶</button>
+      <ul>
+        <li>8:00 - 8:50: Math</li>
+        <li>9:00 - 9:50: English</li>
+        <li>10:00 - 10:50: Science</li>
+        <li>11:00 - 11:50: History</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>📝 Homework</h2>
+      <button class="fullscreen-btn" onclick="openModal('modal-homework')">⛶</button>
+      <ul>
+        <li>Math worksheet - due tomorrow</li>
+        <li>Read Chapter 3 (English)</li>
+        <li>Science project research</li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- Modals -->
+  <div class="modal" id="modal-now">
+    <button class="close-btn" onclick="closeModal('modal-now')">❌</button>
+    <h2>🕒 Now</h2>
+    <ul>
+      <li>Class: <strong>Math</strong></li>
+      <li>Teacher: Ms. Johnson</li>
+      <li>Room: 204</li>
+      <li>Time Left: 15 min</li>
+    </ul>
+  </div>
+
+  <div class="modal" id="modal-schedule">
+    <button class="close-btn" onclick="closeModal('modal-schedule')">❌</button>
+    <h2>📅 Schedule</h2>
+    <ul>
+      <li>8:00 - 8:50: Math</li>
+      <li>9:00 - 9:50: English</li>
+      <li>10:00 - 10:50: Science</li>
+      <li>11:00 - 11:50: History</li>
+    </ul>
+  </div>
+
+  <div class="modal" id="modal-homework">
+    <button class="close-btn" onclick="closeModal('modal-homework')">❌</button>
+    <h2>📝 Homework</h2>
+    <ul>
+      <li><div><div>/</div>/li>
+      <li>Read Chapter 3 (English)</li>
+      <li>Science</li>
+    </ul>
+  </div>
+
